@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface SerieRepository extends JpaRepository<Serie,Long> {
+public interface SerieRepository extends JpaRepository<Serie, Long> {
     Optional<Serie> findByTituloContainingIgnoreCase(String nomeSerie);
 
     List<Serie> findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(String atores, Double avalicao);
@@ -33,6 +33,12 @@ public interface SerieRepository extends JpaRepository<Serie,Long> {
 
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = ?1 AND EXTRACT(YEAR FROM e.dataLancamento) >= ?2")
     List<Episodios> episodiosPorSerieEAno(Serie serie, int anoLancamento);
+
+    @Query("SELECT s FROM Serie s " +
+            "JOIN s.episodios e " +
+            "GROUP BY s " +
+            "ORDER BY MAX(e.dataLancamento) DESC")
+    List<Serie> lancamentosMaisRecentes(Pageable pageable);
 
 
 }
