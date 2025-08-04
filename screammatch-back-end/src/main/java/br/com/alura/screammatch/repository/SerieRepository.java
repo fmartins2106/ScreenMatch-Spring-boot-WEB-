@@ -4,6 +4,7 @@ import br.com.alura.screammatch.Model.Categoria;
 import br.com.alura.screammatch.Model.Episodios;
 import br.com.alura.screammatch.Model.Serie;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -40,6 +41,12 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
             "ORDER BY MAX(e.dataLancamento) DESC")
     List<Serie> lancamentosMaisRecentes(Pageable pageable);
 
+    @EntityGraph(attributePaths = "episodios")
+    Optional<Serie> findById(Long id);
+
+
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s.id = :id AND e.temporada = :numero")
+    List<Episodios> obterEpisodiosPorTemporada(Long id, Long numero);
 
 }
 

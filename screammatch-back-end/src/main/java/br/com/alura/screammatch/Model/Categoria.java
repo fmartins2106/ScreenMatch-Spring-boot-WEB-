@@ -50,9 +50,11 @@ public enum Categoria {
         if (text == null || text.isBlank()) {
             return Optional.empty();
         }
+
         return Arrays.stream(Categoria.values())
                 .filter(c -> c.getCategoriaPortugues().equalsIgnoreCase(text.trim()))
                 .findFirst();
     }
+
 
 }

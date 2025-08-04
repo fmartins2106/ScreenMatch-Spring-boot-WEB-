@@ -1,5 +1,7 @@
 package br.com.alura.screammatch.controller;
 
+
+import br.com.alura.screammatch.dto.EpisodioDTO;
 import br.com.alura.screammatch.dto.SerieDTO;
 import br.com.alura.screammatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +20,38 @@ public class SerieController {
     private SerieService service;
 
     @GetMapping
-    public List<SerieDTO> obterSeries(){
+    public List<SerieDTO> obterSeries() {
         return service.obterTodasAsSeries();
     }
 
     @GetMapping("/top5")
-    public List<SerieDTO> obterTop5Series(){
+    public List<SerieDTO> obterTop5Series() {
         return service.obterTop5Series();
     }
 
     @GetMapping("/lancamentos")
-    public List<SerieDTO> obterLancamentos(){
+    public List<SerieDTO> obterLancamentos() {
         return service.obterLancamentos();
     }
 
     @GetMapping("/{id}")
-    public SerieDTO obterPorID(@PathVariable Long id){
+    public SerieDTO obterPorID(@PathVariable Long id) {
         return service.obterPorId(id);
     }
 
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obterTodasTemporadas(@PathVariable Long id) {
+        return service.obterTodasTemporadas(id);
+    }
 
+    @GetMapping("/{id}/temporadas/{numero}")
+    public List<EpisodioDTO> obterTemporadasPorNumero(@PathVariable Long id, @PathVariable Long numero) {
+        return service.obterTemporadasPorNumero(id, numero);
+    }
 
+    @GetMapping("/categoria/{nomeGenero}")
+    public List<SerieDTO> obterSeriesPorCategoria(@PathVariable String nomeGenero) {
+        return service.obterSeriesPorCategoria(nomeGenero);
+    }
 
 }
